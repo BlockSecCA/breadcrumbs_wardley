@@ -8,6 +8,15 @@ const METADATA_FIELDS_LIST = [
 	//   rather, you specified them in settings
 	"BC-list-note-field",
 	"BC-list-note-exclude-index",
+	//
+	// Strategic mapping fields
+	"BC-strategic-type",
+	"BC-strategic-evolution-stage",
+	"BC-strategic-importance",
+	"BC-strategic-confidence",
+	"BC-strategic-evidence",
+	"BC-strategic-validated",
+	"BC-strategic-maps",
 ] as const;
 
 export type MetadataField = (typeof METADATA_FIELDS_LIST)[number];
@@ -19,6 +28,14 @@ export const META_FIELD = {
 	//
 	"list-note-field": "BC-list-note-field",
 	"list-note-exclude-index": "BC-list-note-exclude-index",
+	//
+	"strategic-type": "BC-strategic-type",
+	"strategic-evolution-stage": "BC-strategic-evolution-stage",
+	"strategic-importance": "BC-strategic-importance",
+	"strategic-confidence": "BC-strategic-confidence",
+	"strategic-evidence": "BC-strategic-evidence",
+	"strategic-validated": "BC-strategic-validated",
+	"strategic-maps": "BC-strategic-maps",
 } satisfies Record<string, MetadataField>;
 
 if (Object.keys(META_FIELD).length !== METADATA_FIELDS_LIST.length) {

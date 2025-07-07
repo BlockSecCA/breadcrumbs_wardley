@@ -6,9 +6,11 @@ import type { BreadcrumbsSettings } from "src/interfaces/settings";
 import { BreadcrumbsSettingTab } from "src/settings/SettingsTab";
 import { active_file_store } from "src/stores/active_file";
 import { MatrixView } from "src/views/matrix";
+import { WardleyMapView } from "src/views/wardley";
 import { PROD } from "./const";
 import { dataview_plugin } from "./external/dataview";
 import { BCGraph } from "./graph/MyMultiGraph";
+import { MapContextManager } from "./graph/map_context";
 import { CreateListIndexModal } from "./modals/CreateListIndexModal";
 import { migrate_old_settings } from "./settings/migration";
 import { redraw_page_views } from "./views/page";
@@ -16,6 +18,7 @@ import { redraw_page_views } from "./views/page";
 export default class BreadcrumbsPlugin extends Plugin {
 	settings!: BreadcrumbsSettings;
 	graph = new BCGraph();
+	mapContextManager!: MapContextManager;
 
 	async onload() {
 		console.log("loading breadcrumbs");
@@ -34,6 +37,10 @@ export default class BreadcrumbsPlugin extends Plugin {
 			await dataview_plugin.await_if_enabled(this);
 
 			this.refresh();
+			
+			// Initialize map context manager after graph is built
+			this.mapContextManager = new MapContextManager(this.app, this.graph);
+			await this.mapContextManager.detectMapContexts();
 
 			// Events
 			/// Workspace
@@ -93,10 +100,39 @@ export default class BreadcrumbsPlugin extends Plugin {
 				}),
 			);
 
+			this.registerEvent(
+				this.app.vault.on("modify", (file) => {
+					console.log("modify", file.path);
+					if (file instanceof TFile) {
+						// Listen for when this specific file's metadata gets updated
+						const onMetadataChange = (changedFile: TFile) => {
+							if (changedFile.path === file.path) {
+								console.log("metadata updated for", file.path);
+								this.app.metadataCache.off("changed", onMetadataChange);
+								this.refresh();
+							}
+						};
+						
+						this.app.metadataCache.on("changed", onMetadataChange);
+						
+						// Fallback timeout in case metadata doesn't update
+						setTimeout(() => {
+							this.app.metadataCache.off("changed", onMetadataChange);
+							console.log("fallback refresh for", file.path);
+							this.refresh();
+						}, 1000);
+					}
+				}),
+			);
+
 			// Views
 			this.registerView(
 				VIEW_IDS.matrix,
 				(leaf) => new MatrixView(leaf, this),
+			);
+			this.registerView(
+				VIEW_IDS.wardley,
+				(leaf) => new WardleyMapView(leaf, this),
 			);
 		});
 
@@ -111,6 +147,12 @@ export default class BreadcrumbsPlugin extends Plugin {
 			id: "breadcrumbs:open-matrix-view",
 			name: "Open matrix view",
 			callback: () => this.activateView(VIEW_IDS.matrix),
+		});
+
+		this.addCommand({
+			id: "breadcrumbs:open-wardley-view",
+			name: "Open Wardley Map view",
+			callback: () => this.activateView(VIEW_IDS.wardley),
 		});
 
 		this.addCommand({
@@ -165,8 +207,17 @@ export default class BreadcrumbsPlugin extends Plugin {
 			const notice = new Notice("Rebuilding BC graph");
 
 			this.graph = rebuild_graph(this);
+			
+			// Update map context manager with new graph
+			if (this.mapContextManager) {
+				this.mapContextManager = new MapContextManager(this.app, this.graph);
+				this.mapContextManager.detectMapContexts();
+			}
 
 			notice.setMessage(`Rebuilt BC graph in ${Date.now() - start_ms}ms`);
+			
+			// Notify Wardley Map views to refresh
+			this.app.workspace.trigger('breadcrumbs:graph-updated');
 		}
 
 		// _Then_ react

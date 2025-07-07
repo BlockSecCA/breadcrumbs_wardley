@@ -57,3 +57,5 @@ export declare namespace IDataview {
 		string | Link | Link[];
 	};
 }
+
+export type DataviewPage = IDataview.Page;

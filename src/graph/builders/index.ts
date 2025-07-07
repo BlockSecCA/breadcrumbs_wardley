@@ -6,6 +6,7 @@ import type { ExplicitEdgeBuilder } from "src/interfaces/graph";
 import type BreadcrumbsPlugin from "src/main";
 import { BCGraph, type BCNodeAttributes } from "../MyMultiGraph";
 import { objectify_edge_mapper } from "../objectify_mappers";
+import { extract_strategic_metadata, extract_strategic_metadata_from_dataview } from "../strategic_metadata";
 import { add_explicit_edges } from "./explicit";
 import { get_all_files, type AllFiles } from "./explicit/files";
 import { add_implied_edges } from "./implied";
@@ -22,6 +23,11 @@ const add_initial_nodes = (graph: BCGraph, all_files: AllFiles) => {
 				node_attr.aliases = aliases;
 			}
 
+			const strategic = extract_strategic_metadata(cache ?? undefined);
+			if (strategic) {
+				node_attr.strategic = strategic;
+			}
+
 			graph.addNode(file.path, node_attr);
 		});
 	} else {
@@ -33,6 +39,11 @@ const add_initial_nodes = (graph: BCGraph, all_files: AllFiles) => {
 			const aliases = page.file.aliases.values;
 			if (Array.isArray(aliases) && aliases.length > 0) {
 				node_attr.aliases = aliases;
+			}
+
+			const strategic = extract_strategic_metadata_from_dataview(page);
+			if (strategic) {
+				node_attr.strategic = strategic;
 			}
 
 			graph.addNode(page.file.path, node_attr);

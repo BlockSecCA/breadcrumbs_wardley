@@ -5,9 +5,9 @@ export const DEFAULT_SETTINGS: BreadcrumbsSettings = {
 	hierarchies: [
 		{
 			dirs: {
-				up: ["up"],
-				same: ["same"],
-				down: ["down"],
+				up: ["up", "depends_on"],
+				same: ["same", "evolves_to", "evolved_from"],
+				down: ["down", "enables"],
 				next: ["next"],
 				prev: ["prev"],
 			},

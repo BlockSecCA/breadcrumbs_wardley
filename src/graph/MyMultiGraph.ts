@@ -2,6 +2,7 @@ import { MultiGraph } from "graphology";
 import type { ExplicitEdgeSource } from "src/const/graph";
 import type { Direction } from "src/const/hierarchies";
 import type { Hierarchy } from "src/interfaces/hierarchies";
+import type { StrategicAttributes } from "src/interfaces/strategic";
 import { objectify_edge_mapper } from "./objectify_mappers";
 import { is_self_loop } from "./utils";
 
@@ -9,6 +10,7 @@ export type BCNodeAttributes = {
 	/** .md file exists  */
 	resolved: boolean;
 	aliases?: string[];
+	strategic?: StrategicAttributes;
 };
 
 export type BCEdgeAttributes = {

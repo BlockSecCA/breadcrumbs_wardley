@@ -13,6 +13,8 @@ export const _add_explicit_edges_typed_link: ExplicitEdgeBuilder = (
 	all_files,
 ) => {
 	const errors: GraphBuildError[] = [];
+	
+	console.log('TypedLink: Starting with hierarchies:', plugin.settings.hierarchies);
 
 	all_files.obsidian?.forEach(
 		({ file: source_file, cache: source_cache }) => {
@@ -23,11 +25,14 @@ export const _add_explicit_edges_typed_link: ExplicitEdgeBuilder = (
 				// We only want the field name, so we split on the dot and take the first element
 				// This implies that we can't have a field name with a dot in it...
 				const field = target_link.key.split(".")[0];
+				
+				console.log('TypedLink: Processing link:', { file: source_file.path, field, key: target_link.key, link: target_link.link });
 
 				const field_hierarchy = get_field_hierarchy(
 					plugin.settings.hierarchies,
 					field,
 				);
+				console.log('TypedLink: Field hierarchy result:', { field, hierarchy: field_hierarchy });
 				if (!field_hierarchy) return;
 
 				const maybe_resolved_target_path = Paths.ensure_ext(
@@ -54,6 +59,13 @@ export const _add_explicit_edges_typed_link: ExplicitEdgeBuilder = (
 					graph.safe_add_node(target_path, { resolved: false });
 				}
 
+				console.log('TypedLink: Adding edge:', { 
+					source: source_file.path, 
+					target: target_path, 
+					field,
+					dir: field_hierarchy.dir 
+				});
+				
 				graph.addDirectedEdge(source_file.path, target_path, {
 					field,
 					explicit: true,
@@ -120,6 +132,13 @@ export const _add_explicit_edges_typed_link: ExplicitEdgeBuilder = (
 				}
 
 				// If the file exists, we should have already added a node for it in the simple loop over all markdown files
+				console.log('TypedLink: Adding edge:', { 
+					source: source_file.path, 
+					target: target_path, 
+					field,
+					dir: field_hierarchy.dir 
+				});
+				
 				graph.addDirectedEdge(source_file.path, target_path, {
 					field,
 					explicit: true,

@@ -40,6 +40,7 @@ export const get_field_hierarchy = (
 	hierarchies: Hierarchy[],
 	field: string,
 ) => {
+	console.log('get_field_hierarchy: Looking for field', field, 'in hierarchies:', hierarchies);
 	let dir: Direction | null = null;
 	let fields: string[] | null = null;
 	let hierarchy_i: number | null = null;
