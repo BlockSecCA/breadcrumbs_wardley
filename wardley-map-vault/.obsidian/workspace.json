@@ -15,7 +15,7 @@
               "state": {
                 "file": "README.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
               "title": "README"
@@ -180,10 +180,11 @@
   },
   "active": "196741ee10cd0a5c",
   "lastOpenFiles": [
-    "Tea-Shop/Water.md",
-    "README.md",
-    "Tea-Shop/Business.md",
     "Tea-Shop/Cup of Tea.md",
+    "Tea-Shop/Business.md",
+    "README.md",
+    "Tea-Shop/Water.md",
+    "Tea-Shop/Tea_screenshot.png",
     "Tea-Shop/Public.md",
     "Tea-Shop/Electric Kettle.md",
     "Tea-Shop/Cup.md",

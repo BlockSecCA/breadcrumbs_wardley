@@ -10,6 +10,11 @@ This project is built on and extends the excellent [Breadcrumbs plugin](https://
 
 This strategic mapping extension adds Wardley mapping visualization on top of Breadcrumbs' powerful relationship and hierarchy system.
 
+## 🎨 Visual Preview
+
+![Tea Shop Wardley Map](./docs/breadcrump_wardley_map_teapot.png)
+*Interactive Wardley Map showing the Tea Shop example with component positioning, relationship arrows, and evolution progression*
+
 ## 🎯 What is Strategic Mapping?
 
 Strategic mapping helps you visualize and analyze the evolution and dependencies of components in your business, technology, or knowledge domain. This extension implements [Wardley Mapping](https://wardleymaps.com/) methodology within Obsidian, allowing you to:
