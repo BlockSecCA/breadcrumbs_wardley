@@ -126,7 +126,7 @@ Use the map selector dropdown to switch between different strategic contexts:
 
 ## 🍵 Example: Tea Shop Wardley Map
 
-The included Tea Shop example demonstrates a complete strategic map:
+The included Tea Shop example demonstrates a complete strategic map based on [Simon Wardley's classic tea cup example](https://swardley.medium.com/a-good-enough-map-eaed8a525bf4):
 
 ```yaml
 # Cup.md
@@ -165,30 +165,61 @@ This creates a map showing:
 
 ## 🎨 Visual Guide
 
-### Map Layout
+### Tea Shop Wardley Map Structure
+
+```mermaid
+graph TD
+    subgraph "User Needs"
+        Business[Business Need]
+        Public[Public/Regulatory]
+    end
+    
+    subgraph "Products & Services"
+        CupOfTea[Cup of Tea]
+    end
+    
+    subgraph "Components"
+        Cup[Cup]
+        Tea[Tea]
+        HotWater[Hot Water]
+    end
+    
+    subgraph "Infrastructure"
+        Kettle[Kettle]
+        ElectricKettle[Electric Kettle]
+        Power[Power]
+        Water[Water]
+    end
+    
+    %% Value Chain Dependencies
+    Business --> CupOfTea
+    Public --> CupOfTea
+    CupOfTea --> Cup
+    CupOfTea --> Tea
+    CupOfTea --> HotWater
+    HotWater --> Kettle
+    HotWater --> Water
+    Kettle --> Power
+    
+    %% Evolution Arrow
+    Kettle -.->|evolves to| ElectricKettle
+    
+    %% Evolution Stages (left to right)
+    classDef genesis fill:#ff9999
+    classDef custom fill:#ffcc99  
+    classDef product fill:#99ccff
+    classDef commodity fill:#99ff99
+    
+    class Kettle custom
+    class Business,ElectricKettle,Power product
+    class Cup,Tea,HotWater,Water,Public commodity
 ```
-Value Chain (Y-axis)
-↑ User Needs
-│ 
-│ Business ──────── Public
-│    │               │
-│    ▼               ▼
-│ Cup of Tea ────────┐
-│    │               │
-│    ▼               ▼
-│ Cup  Tea  Hot Water
-│  │   │       │
-│  │   │       ▼
-│  │   │    Kettle ····→ Electric Kettle
-│  │   │       │
-│  │   │       ▼
-│  │   └──── Power
-│  │
-│  └─ Infrastructure
-│
-└─ Genesis ──── Custom ──── Product ──── Commodity
-                                        Evolution (X-axis) →
-```
+
+### Evolution Axis (Genesis → Commodity)
+- **Genesis**: Novel, uncertain, rapidly changing
+- **Custom**: Becoming understood, custom-built solutions (Kettle)
+- **Product**: Standardized products, best practices emerging (Electric Kettle, Power, Business)
+- **Commodity**: Standardized, utility-like, stable (Cup, Tea, Hot Water, Water, Public)
 
 ### Color Coding
 - **Blue lines**: `depends_on` (value chain dependencies)

@@ -192,24 +192,6 @@
     "Tea-Shop/Power.md",
     "README.md",
     "Tea-Shop/Cup of Tea.md",
-    "Tea-Shop/Business.md",
-    "Strategic-Maps/Product-Strategy/Notification System.md",
-    "Strategic-Maps/Product-Strategy/User Authentication.md",
-    "Strategic-Maps/Product-Strategy/User Dashboard.md",
-    "Strategic-Maps/Product-Strategy/Reporting System.md",
-    "Strategic-Maps/Product-Strategy/Analytics Engine.md",
-    "Strategic-Maps/Infrastructure-Strategy/Cloud Infrastructure.md",
-    "Strategic-Maps/Product-Strategy/Map-Context.md",
-    "Strategic-Maps/Infrastructure-Strategy/Message Queue.md",
-    "Strategic-Maps/Infrastructure-Strategy/Identity Provider.md",
-    "Strategic-Maps/Infrastructure-Strategy/Database Cluster.md",
-    "Strategic-Maps/Infrastructure-Strategy/Data Pipeline.md",
-    "Simple-Vault-Example/User Registration.md",
-    "Simple-Vault-Example/Feature Discovery.md",
-    "Strategic-Maps/Product-Strategy",
-    "Strategic-Maps/Infrastructure-Strategy",
-    "Strategic-Maps",
-    "Simple-Vault-Example",
-    "Shared-Components"
+    "Tea-Shop/Business.md"
   ]
 }

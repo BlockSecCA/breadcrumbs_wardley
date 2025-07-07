@@ -62,14 +62,17 @@ export class MapContextManager {
 		const contexts: MapContext[] = [];
 		const all_files = this.app.vault.getAllLoadedFiles();
 		
-		// Get unique folder paths from all files
+		// Get unique folder paths from all files, filtering out non-existent files
 		const folder_paths = new Set<string>();
 		for (const file of all_files) {
-			if (file.path.includes('/')) {
+			// Check if file actually exists (not just cached)
+			if (file.path.includes('/') && this.app.vault.getAbstractFileByPath(file.path)) {
 				const folder_path = file.path.substring(0, file.path.lastIndexOf('/'));
 				folder_paths.add(folder_path);
 			}
 		}
+		
+		console.log('MapContext: Detected folder paths:', Array.from(folder_paths));
 
 		for (const folder_path of folder_paths) {
 			const map_context_file = this.app.vault.getAbstractFileByPath(
