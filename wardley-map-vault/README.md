@@ -125,7 +125,7 @@ Use this example to:
 
 - **Original Tea Cup Map**: [Simon Wardley's Article](https://swardley.medium.com/a-good-enough-map-eaed8a525bf4)
 - **Wardley Mapping**: [Official Guide](https://wardleymaps.com/)
-- **Plugin Documentation**: [Main README](../README.md)
+- **Plugin Features & Installation**: [Strategic Mapping Extension Documentation](../README.md)
 
 ---
 

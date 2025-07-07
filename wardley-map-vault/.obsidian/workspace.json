@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Tea-Shop/Public.md",
+                "file": "README.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "Public"
+              "title": "README"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 243.5
   },
   "right": {
     "id": "93e77ab6bed7b22f",
@@ -166,7 +166,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 957.5
+    "width": 949.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -178,20 +178,19 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "46d7a74f9ac831ab",
+  "active": "196741ee10cd0a5c",
   "lastOpenFiles": [
-    "Tea-Shop/Electric Kettle.md",
+    "Tea-Shop/Water.md",
+    "README.md",
+    "Tea-Shop/Business.md",
+    "Tea-Shop/Cup of Tea.md",
     "Tea-Shop/Public.md",
+    "Tea-Shop/Electric Kettle.md",
     "Tea-Shop/Cup.md",
     "Tea-Shop/Hot Water.md",
-    "Tea-Shop/Water.md",
     "Tea-Shop/Tea.md",
-    "Tea-Shop/Tea_screenshot.png",
     "Tea-Shop/Kettle.md",
     "Tea-Shop/Map-Context.md",
-    "Tea-Shop/Power.md",
-    "README.md",
-    "Tea-Shop/Cup of Tea.md",
-    "Tea-Shop/Business.md"
+    "Tea-Shop/Power.md"
   ]
 }
