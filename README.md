@@ -1,6 +1,14 @@
 # Breadcrumbs V4 - Strategic Mapping Extension
 
-An extension to Breadcrumbs V4 that adds strategic mapping capabilities to Obsidian, enabling you to create and visualize Wardley Maps directly from your notes.
+An extension to [Breadcrumbs V4](https://github.com/SkepticMystic/breadcrumbs/tree/v4) that adds strategic mapping capabilities to Obsidian, enabling you to create and visualize Wardley Maps directly from your notes.
+
+## 🙏 Attribution
+
+This project is built on and extends the excellent [Breadcrumbs plugin](https://github.com/SkepticMystic/breadcrumbs) by [SkepticMystic](https://github.com/SkepticMystic) and the Breadcrumbs community. All core graph functionality, relationship management, and plugin architecture comes from the original Breadcrumbs V4 codebase.
+
+**Original Breadcrumbs Repository**: https://github.com/SkepticMystic/breadcrumbs/tree/v4
+
+This strategic mapping extension adds Wardley mapping visualization on top of Breadcrumbs' powerful relationship and hierarchy system.
 
 ## 🎯 What is Strategic Mapping?
 
@@ -328,30 +336,44 @@ confidence_level: high
 
 ## 🤝 Contributing
 
-This is an extension of the [Breadcrumbs V4 plugin](https://github.com/SkepticMystic/breadcrumbs). 
+This is an extension of the [Breadcrumbs V4 plugin](https://github.com/SkepticMystic/breadcrumbs/tree/v4) by [SkepticMystic](https://github.com/SkepticMystic). 
 
 ### Development Setup
 1. Clone the repository
-2. `npm install` - install dependencies
+2. `npm install` - install dependencies  
 3. `npm run dev` - start development build
 4. `npm run build` - create production build
 
 ### Architecture
-- **Extends Breadcrumbs V4** - builds on existing graph and view system
+- **Extends Breadcrumbs V4** - builds on existing graph and view system from the original plugin
 - **Strategic metadata parsing** - extracts Wardley mapping attributes
 - **SVG-based rendering** - interactive map visualization
 - **Real-time synchronization** - metadata cache integration
 
+### Credits
+- **Core Plugin**: [Breadcrumbs](https://github.com/SkepticMystic/breadcrumbs) by SkepticMystic and contributors
+- **Strategic Extension**: BlockSecCA (this repository)
+- **Wardley Mapping**: [Simon Wardley](https://swardley.medium.com/) methodology
+- **Tea Cup Example**: Based on [Simon Wardley's classic example](https://swardley.medium.com/a-good-enough-map-eaed8a525bf4)
+
 ## 📚 Additional Resources
 
-- [Wardley Mapping Guide](https://wardleymaps.com/)
-- [Strategic Thinking with Maps](https://medium.com/wardleymaps)
-- [Breadcrumbs V4 Documentation](https://github.com/SkepticMystic/breadcrumbs)
-- [Obsidian Community](https://obsidian.md/community)
+- **Original Plugin**: [Breadcrumbs V4](https://github.com/SkepticMystic/breadcrumbs/tree/v4) - The foundation this extension builds on
+- **Wardley Mapping**: [Official Guide](https://wardleymaps.com/) by Simon Wardley
+- **Strategic Thinking**: [Wardley Maps Medium](https://medium.com/wardleymaps) - Community articles and insights
+- **Obsidian Community**: [Official Community](https://obsidian.md/community) - Plugin ecosystem and support
 
 ## 📝 License
 
-This project maintains the same license as Breadcrumbs V4.
+This project maintains the same license as the original [Breadcrumbs V4 plugin](https://github.com/SkepticMystic/breadcrumbs/tree/v4).
+
+## 💝 Acknowledgments
+
+Special thanks to:
+- **SkepticMystic** and the Breadcrumbs community for creating the foundational plugin
+- **Simon Wardley** for developing Wardley Mapping methodology
+- **Obsidian team** for the extensible plugin architecture
+- **The open source community** for making collaborative development possible
 
 ---
 
