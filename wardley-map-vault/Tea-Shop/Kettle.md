@@ -4,8 +4,8 @@ evolution_stage: custom
 strategic_importance: supporting
 confidence_level: high
 evidence_sources:
-  - "equipment_performance_data"
-  - "maintenance_records"
+  - "[[Kettle Performance Analysis]]"
+  - "[[Kettle Maintenance Records]]"
 last_validated: "2024-12-01"
 depends_on:
   - "[[Power]]"

@@ -1,9 +1,10 @@
 import type { BCGraph } from "src/graph/MyMultiGraph";
 import type { ComponentNode, ComponentEdge } from "./WardleyMapRenderer";
-import type { EvolutionStage } from "src/interfaces/strategic";
+import type { EvolutionStage, WardleyMapVisualSettings } from "src/interfaces/strategic";
 
 export class WardleyPositioner {
 	private graph: BCGraph;
+	private settings: WardleyMapVisualSettings;
 	
 	// Canvas dimensions (matching SVG viewBox)
 	private readonly CANVAS_WIDTH = 800;
@@ -12,8 +13,9 @@ export class WardleyPositioner {
 	private readonly CONTENT_WIDTH = this.CANVAS_WIDTH - (this.MARGIN * 2);
 	private readonly CONTENT_HEIGHT = this.CANVAS_HEIGHT - (this.MARGIN * 2);
 
-	constructor(graph: BCGraph) {
+	constructor(graph: BCGraph, settings: WardleyMapVisualSettings) {
 		this.graph = graph;
+		this.settings = settings;
 	}
 
 	position(components: ComponentNode[], edges: ComponentEdge[]): ComponentNode[] {
@@ -52,47 +54,159 @@ export class WardleyPositioner {
 		// Create dependency graph for topological sorting
 		const dependencyGraph = this.buildDependencyGraph(components, edges);
 		
+		// Handle evolution relationships first (they should maintain same Y position)
+		const evolutionPairs = this.findEvolutionPairs(edges);
+		
 		// Perform topological sort to determine layers
 		const layers = this.topologicalSort(dependencyGraph);
+		
+		// Debug logging
+		console.log('WardleyPositioner: Dependency layers:', layers.map((layer, i) => 
+			`Layer ${i}: ${layer.map(id => id.split('/').pop()?.replace('.md', '')).join(', ')}`
+		).join('\n'));
 		
 		// Position components in layers from top (user-visible) to bottom (infrastructure)
 		const positioned = [...components];
 		
+		// First pass: Set Y positions based on value chain layers
 		layers.forEach((layer, layerIndex) => {
 			const y = layers.length <= 1 
 				? this.MARGIN + (this.CONTENT_HEIGHT / 2)  // Center single layer
 				: this.MARGIN + (layerIndex * (this.CONTENT_HEIGHT / (layers.length - 1)));
 			
-			// Distribute components within layer horizontally if they have same evolution stage
-			const layerComponents = layer.map(id => positioned.find(c => c.id === id)!).filter(Boolean);
-			
-			// Group by X position (evolution stage)
-			const xGroups = new Map<number, ComponentNode[]>();
-			layerComponents.forEach(comp => {
-				const x = comp.x;
-				if (!xGroups.has(x)) {
-					xGroups.set(x, []);
-				}
-				xGroups.get(x)!.push(comp);
-			});
-
-			// Distribute components within each X group
-			xGroups.forEach((group, baseX) => {
-				if (group.length === 1) {
-					group[0].y = y;
-				} else {
-					// Spread components around the evolution stage position
-					const spread = Math.min(50, this.CONTENT_WIDTH * 0.1);
-					group.forEach((comp, index) => {
-						const offset = (index - (group.length - 1) / 2) * (spread / Math.max(1, group.length - 1));
-						comp.x = Math.max(this.MARGIN, Math.min(this.CANVAS_WIDTH - this.MARGIN, baseX + offset));
-						comp.y = y;
-					});
+			// Set base Y position for all components in this layer
+			layer.forEach(id => {
+				const comp = positioned.find(c => c.id === id);
+				if (comp) {
+					comp.y = y;
 				}
 			});
 		});
+		
+		// Second pass: Ensure evolution pairs have same Y position (disabled for now)
+		// TODO: Re-enable after fixing value chain positioning
+		/* 
+		evolutionPairs.forEach(pair => {
+			const sourceComp = positioned.find(c => c.id === pair.source);
+			const targetComp = positioned.find(c => c.id === pair.target);
+			if (sourceComp && targetComp) {
+				// Check if evolution components have dependencies that conflict
+				const hasConflictingDependencies = this.checkEvolutionConflict(pair, edges, layers);
+				
+				if (!hasConflictingDependencies) {
+					// Safe to align - use the lower position (closer to infrastructure) for both
+					const sharedY = Math.max(sourceComp.y, targetComp.y);
+					sourceComp.y = sharedY;
+					targetComp.y = sharedY;
+				}
+			}
+		});
+		*/
+		
+		// Third pass: Handle collisions within same layer and evolution stage
+		this.resolveCollisions(positioned);
 
 		return positioned;
+	}
+
+	private distributeComponentsInGroup(group: ComponentNode[], baseX: number, baseY: number): void {
+		const MIN_SPACING = this.settings.component_spacing; // Configurable horizontal spacing
+		const VERTICAL_SPACING = 40; // Vertical spacing between overlapping components
+		const MAX_SPREAD = this.CONTENT_WIDTH * 0.2; // Increased maximum horizontal spread
+		
+		if (group.length === 1) {
+			group[0].x = baseX;
+			group[0].y = baseY;
+			return;
+		}
+		
+		// Sort components by name for consistent positioning
+		group.sort((a, b) => a.name.localeCompare(b.name));
+		
+		// Use a spiral/grid pattern for better distribution
+		if (group.length <= 3) {
+			// For small groups, use horizontal distribution
+			const totalSpacing = (group.length - 1) * MIN_SPACING;
+			const spread = Math.min(MAX_SPREAD, totalSpacing);
+			
+			group.forEach((comp, index) => {
+				const progress = group.length > 1 ? index / (group.length - 1) : 0;
+				const horizontalOffset = (progress - 0.5) * spread;
+				
+				comp.x = Math.max(this.MARGIN, Math.min(this.CANVAS_WIDTH - this.MARGIN, baseX + horizontalOffset));
+				comp.y = baseY;
+			});
+		} else {
+			// For larger groups, use a 2D grid pattern
+			const cols = Math.ceil(Math.sqrt(group.length));
+			const rows = Math.ceil(group.length / cols);
+			
+			group.forEach((comp, index) => {
+				const col = index % cols;
+				const row = Math.floor(index / cols);
+				
+				const horizontalOffset = (col - (cols - 1) / 2) * (MIN_SPACING * 0.8);
+				const verticalOffset = (row - (rows - 1) / 2) * VERTICAL_SPACING;
+				
+				comp.x = Math.max(this.MARGIN, Math.min(this.CANVAS_WIDTH - this.MARGIN, baseX + horizontalOffset));
+				comp.y = baseY + verticalOffset;
+			});
+		}
+	}
+
+	private findEvolutionPairs(edges: ComponentEdge[]): {source: string, target: string}[] {
+		const pairs: {source: string, target: string}[] = [];
+		
+		edges.forEach(edge => {
+			if (edge.type === 'evolves_to') {
+				pairs.push({source: edge.source, target: edge.target});
+			}
+		});
+		
+		return pairs;
+	}
+
+	private checkEvolutionConflict(
+		pair: {source: string, target: string}, 
+		edges: ComponentEdge[], 
+		layers: string[][]
+	): boolean {
+		// Find which layers the evolution pair components are in
+		let sourceLayer = -1;
+		let targetLayer = -1;
+		
+		layers.forEach((layer, index) => {
+			if (layer.includes(pair.source)) sourceLayer = index;
+			if (layer.includes(pair.target)) targetLayer = index;
+		});
+		
+		// If they're more than 1 layer apart, there's likely a dependency conflict
+		return Math.abs(sourceLayer - targetLayer) > 1;
+	}
+
+	private resolveCollisions(components: ComponentNode[]): void {
+		const COLLISION_THRESHOLD = 30; // Minimum distance between components
+		const VERTICAL_OFFSET = 35; // How much to move overlapping components
+		
+		// Group components by approximate position (Y within threshold and same X band)
+		for (let i = 0; i < components.length; i++) {
+			for (let j = i + 1; j < components.length; j++) {
+				const comp1 = components[i];
+				const comp2 = components[j];
+				
+				// Check if they're in collision (close X and Y positions)
+				const xDiff = Math.abs(comp1.x - comp2.x);
+				const yDiff = Math.abs(comp1.y - comp2.y);
+				
+				if (xDiff < this.settings.component_spacing && yDiff < COLLISION_THRESHOLD) {
+					// Collision detected - move the second component slightly down
+					comp2.y += VERTICAL_OFFSET;
+					
+					// Ensure it stays within bounds
+					comp2.y = Math.min(comp2.y, this.CANVAS_HEIGHT - this.MARGIN);
+				}
+			}
+		}
 	}
 
 	private buildDependencyGraph(components: ComponentNode[], edges: ComponentEdge[]): Map<string, Set<string>> {
@@ -119,6 +233,25 @@ export class WardleyPositioner {
 				if (dependents) {
 					dependents.add(edge.target);
 				}
+			}
+		});
+
+		// Handle evolution relationships: evolved components inherit same dependencies
+		const evolutionPairs = this.findEvolutionPairs(edges);
+		evolutionPairs.forEach(pair => {
+			const sourceGraph = graph.get(pair.source);
+			const targetGraph = graph.get(pair.target);
+			
+			if (sourceGraph && targetGraph) {
+				// Copy dependencies from source to target (evolved component)
+				sourceGraph.forEach(dependent => targetGraph.add(dependent));
+				
+				// Also copy dependencies TO the evolved component
+				graph.forEach((dependents, nodeId) => {
+					if (dependents.has(pair.source)) {
+						dependents.add(pair.target);
+					}
+				});
 			}
 		});
 

@@ -4,8 +4,8 @@ evolution_stage: commodity
 strategic_importance: supporting
 confidence_level: high
 evidence_sources:
-  - "supplier_catalog"
-  - "inventory_management"
+  - "[[Cup Supplier Catalog]]"
+  - "[[Cup Inventory Management]]"
 last_validated: "2024-12-15"
 ---
 

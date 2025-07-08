@@ -4,8 +4,8 @@ evolution_stage: product
 strategic_importance: supporting
 confidence_level: high
 evidence_sources:
-  - "utility_bills"
-  - "electrical_inspection"
+  - "[[Utility Bills Analysis]]"
+  - "[[Electrical Safety Inspection]]"
 last_validated: "2024-12-01"
 ---
 

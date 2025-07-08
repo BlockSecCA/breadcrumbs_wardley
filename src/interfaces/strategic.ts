@@ -65,3 +65,20 @@ export interface StrategicInsight {
 	affected_components: string[];
 	priority: "high" | "medium" | "low";
 }
+
+export interface WardleyMapVisualSettings {
+	font_size: number;
+	node_size: number;
+	node_colors: {
+		critical: string;
+		important: string;
+		supporting: string;
+		optional: string;
+	};
+	show_evolution_grid: boolean;
+	show_axis_labels: boolean;
+	edge_thickness: number;
+	component_spacing: number;
+	grid_color: string;
+	grid_opacity: number;
+}

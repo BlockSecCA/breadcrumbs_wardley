@@ -4,7 +4,7 @@ evolution_stage: commodity
 strategic_importance: supporting
 confidence_level: medium
 evidence_sources:
-  - "water_quality_testing"
+  - "[[Water Quality Testing Report]]"
 last_validated: "2024-11-20"
 ---
 

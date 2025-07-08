@@ -5,6 +5,27 @@ import { blank_hierarchy } from "src/utils/hierarchies";
 export const migrate_old_settings = async (plugin: BreadcrumbsPlugin) => {
 	const { settings } = plugin;
 
+	// Ensure Wardley settings exist with defaults
+	if (!settings.views.wardley) {
+		settings.views.wardley = {
+			font_size: 11,
+			node_size: 12,
+			node_colors: {
+				critical: "var(--color-red)",
+				important: "var(--color-orange)",
+				supporting: "var(--color-blue)",
+				optional: "var(--color-base-40)",
+			},
+			show_evolution_grid: true,
+			show_axis_labels: true,
+			edge_thickness: 2,
+			component_spacing: 80,
+			grid_color: "var(--text-muted)",
+			grid_opacity: 0.5,
+		};
+		await plugin.saveSettings();
+	}
+
 	// Hierarchies used to just be the Record<Direction, string[]>, but now that's wrapped in an object
 	if (
 		settings.hierarchies.at(0) &&

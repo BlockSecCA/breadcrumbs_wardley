@@ -1,12 +1,12 @@
 ---
 type: component
 evolution_stage: commodity
-strategic_importance: important
+strategic_importance: supporting
 confidence_level: high
 evidence_sources:
-  - "supplier_relationships"
-  - "quality_testing"
-last_validated: "2024-12-10"
+  - "[[Tea Supplier Analysis]]"
+  - "[[Tea Quality Testing Results]]"
+last_validated: 2024-12-10
 ---
 
 # Tea

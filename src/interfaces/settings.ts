@@ -1,4 +1,5 @@
 import type { Hierarchy } from "./hierarchies";
+import type { WardleyMapVisualSettings } from "./strategic";
 
 export type ShowNodeOptions = {
 	ext: boolean;
@@ -38,5 +39,6 @@ export interface BreadcrumbsSettings {
 				show_node_options: ShowNodeOptions;
 			};
 		};
+		wardley: WardleyMapVisualSettings;
 	};
 }

@@ -38,8 +38,8 @@ export function extract_strategic_metadata(cache: CachedMetadata | undefined): S
 		strategic.confidence_level = confidence as ConfidenceLevel;
 	}
 
-	// Extract evidence sources
-	const evidence = get_strategic_field(fm, META_FIELD["strategic-evidence"]);
+	// Extract evidence sources (support both field names)
+	const evidence = get_strategic_field(fm, META_FIELD["strategic-evidence"]) || fm.evidence_sources;
 	if (evidence) {
 		strategic.evidence_sources = Array.isArray(evidence) ? evidence : [evidence];
 	}
@@ -122,8 +122,8 @@ export function extract_strategic_metadata_from_dataview(page: DataviewPage): St
 		strategic.confidence_level = confidence as ConfidenceLevel;
 	}
 
-	// Extract evidence sources
-	const evidence = get_strategic_field_from_page(page, META_FIELD["strategic-evidence"]);
+	// Extract evidence sources (support both field names)
+	const evidence = get_strategic_field_from_page(page, META_FIELD["strategic-evidence"]) || page.evidence_sources;
 	if (evidence) {
 		strategic.evidence_sources = Array.isArray(evidence) ? evidence : [evidence];
 	}

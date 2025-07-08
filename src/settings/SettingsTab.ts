@@ -5,6 +5,7 @@ import { _add_settings_hierarchies } from "./HierarchySettings";
 import { _add_settings_matrix } from "./MatrixSettings";
 import { _add_settings_page_views } from "./PageViewSettings";
 import { _add_settings_prev_next_view } from "./PrevNextSettings";
+import { _add_settings_wardley } from "./WardleySettings";
 
 const make_details_el = (
 	parent: HTMLElement,
@@ -58,5 +59,13 @@ export class BreadcrumbsSettingTab extends PluginSettingTab {
 
 		page_details.createEl("h3", { text: "Previous/Next" });
 		_add_settings_prev_next_view(plugin, page_details);
+
+		// Wardley Map Settings
+		_add_settings_wardley(
+			plugin,
+			make_details_el(containerEl, {
+				s: { cls: "text-xl p-1", text: "Wardley Maps" },
+			}),
+		);
 	}
 }

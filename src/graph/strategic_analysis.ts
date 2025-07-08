@@ -59,6 +59,17 @@ export class StrategicAnalyzer {
 					component_path: id,
 					severity: 'medium',
 				});
+			} else {
+				// Check if evidence notes exist (future enhancement)
+				const missingEvidenceNotes = this.checkEvidenceNotesExist(strategic.evidence_sources);
+				if (missingEvidenceNotes.length > 0) {
+					warnings.push({
+						type: 'missing_evidence',
+						message: `Referenced evidence notes don't exist: ${missingEvidenceNotes.join(', ')}`,
+						component_path: id,
+						severity: 'low',
+					});
+				}
 			}
 
 			// Outdated validation warning
@@ -321,5 +332,31 @@ export class StrategicAnalyzer {
 		});
 
 		return summary;
+	}
+
+	private checkEvidenceNotesExist(evidenceSources: string[]): string[] {
+		const missingNotes: string[] = [];
+		
+		evidenceSources.forEach(source => {
+			// Extract note name from [[Note Name]] format
+			const noteMatch = source.match(/\[\[([^\]]+)\]\]/);
+			if (noteMatch) {
+				const noteName = noteMatch[1];
+				const notePath = noteName + '.md';
+				
+				// Check if note exists in vault
+				const file = this.plugin.app.vault.getAbstractFileByPath(notePath);
+				if (!file) {
+					// Check in subfolders too
+					const allFiles = this.plugin.app.vault.getMarkdownFiles();
+					const exists = allFiles.some(f => f.basename === noteName);
+					if (!exists) {
+						missingNotes.push(noteName);
+					}
+				}
+			}
+		});
+		
+		return missingNotes;
 	}
 }

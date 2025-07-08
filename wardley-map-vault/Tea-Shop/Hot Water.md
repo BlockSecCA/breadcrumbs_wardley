@@ -4,8 +4,8 @@ evolution_stage: commodity
 strategic_importance: important
 confidence_level: high
 evidence_sources:
-  - "brewing_temperature_standards"
-  - "equipment_specifications"
+  - "[[Brewing Temperature Standards]]"
+  - "[[Equipment Specifications]]"
 last_validated: "2024-12-05"
 depends_on:
   - "[[Water]]"

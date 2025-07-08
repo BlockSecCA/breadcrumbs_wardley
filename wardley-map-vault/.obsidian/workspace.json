@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "Tea-Shop/Hot Water.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "Hot Water"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 243.5
+    "width": 200
   },
   "right": {
     "id": "93e77ab6bed7b22f",
@@ -142,17 +142,17 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Tea-Shop/Electric Kettle.md",
+                "file": "Tea-Shop/Hot Water.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Electric Kettle"
+              "title": "Outline of Hot Water"
             }
           },
           {
-            "id": "46d7a74f9ac831ab",
+            "id": "22c7fe4d278a3b15",
             "type": "leaf",
             "state": {
               "type": "bc-wardley-view",
@@ -166,7 +166,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 949.5
+    "width": 1563.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -178,19 +178,19 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "196741ee10cd0a5c",
+  "active": "22c7fe4d278a3b15",
   "lastOpenFiles": [
-    "Tea-Shop/Cup of Tea.md",
-    "Tea-Shop/Business.md",
-    "README.md",
     "Tea-Shop/Water.md",
-    "Tea-Shop/Tea_screenshot.png",
-    "Tea-Shop/Public.md",
-    "Tea-Shop/Electric Kettle.md",
-    "Tea-Shop/Cup.md",
-    "Tea-Shop/Hot Water.md",
     "Tea-Shop/Tea.md",
+    "Tea-Shop/Hot Water.md",
     "Tea-Shop/Kettle.md",
+    "Tea-Shop/Electric Kettle.md",
+    "Tea-Shop/Public.md",
+    "Tea-Shop/Cup of Tea.md",
+    "README.md",
+    "Tea-Shop/Business.md",
+    "Tea-Shop/Tea_screenshot.png",
+    "Tea-Shop/Cup.md",
     "Tea-Shop/Map-Context.md",
     "Tea-Shop/Power.md"
   ]

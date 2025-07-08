@@ -1,5 +1,5 @@
 import type BreadcrumbsPlugin from "src/main";
-import type { MapContext, EvolutionStage } from "src/interfaces/strategic";
+import type { MapContext, EvolutionStage, WardleyMapVisualSettings } from "src/interfaces/strategic";
 import type { BCNodeAttributes } from "src/graph/MyMultiGraph";
 import { WardleyPositioner } from "./WardleyPositioner";
 
@@ -25,12 +25,32 @@ export class WardleyMapRenderer {
 	private svg: SVGElement | null = null;
 	private components: ComponentNode[] = [];
 	private edges: ComponentEdge[] = [];
+	private settings: WardleyMapVisualSettings;
 
 	constructor(container: HTMLElement, plugin: BreadcrumbsPlugin, context: MapContext) {
 		this.container = container;
 		this.plugin = plugin;
 		this.context = context;
-		this.positioner = new WardleyPositioner(plugin.graph);
+		
+		// Ensure wardley settings exist with defaults
+		this.settings = plugin.settings.views.wardley || {
+			font_size: 11,
+			node_size: 12,
+			node_colors: {
+				critical: "var(--color-red)",
+				important: "var(--color-orange)",
+				supporting: "var(--color-blue)",
+				optional: "var(--color-base-40)",
+			},
+			show_evolution_grid: true,
+			show_axis_labels: true,
+			edge_thickness: 2,
+			component_spacing: 80,
+			grid_color: "var(--text-muted)",
+			grid_opacity: 0.5,
+		};
+		
+		this.positioner = new WardleyPositioner(plugin.graph, this.settings);
 	}
 
 	async updateContext(context: MapContext) {
@@ -193,31 +213,48 @@ export class WardleyMapRenderer {
 		xAxis.setAttribute('stroke-width', '2');
 		axesGroup.appendChild(xAxis);
 
-		// Y-axis label
-		const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-		yLabel.setAttribute('x', '20');
-		yLabel.setAttribute('y', '300');
-		yLabel.setAttribute('text-anchor', 'middle');
-		yLabel.setAttribute('transform', 'rotate(-90, 20, 300)');
-		yLabel.setAttribute('fill', 'var(--text-muted)');
-		yLabel.setAttribute('font-size', '14');
-		yLabel.textContent = 'Value Chain (User Visible ← → Infrastructure)';
-		axesGroup.appendChild(yLabel);
+		// Axis labels (if enabled)
+		if (this.settings.show_axis_labels) {
+			// Y-axis label (moved closer to axis)
+			const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+			yLabel.setAttribute('x', '50');
+			yLabel.setAttribute('y', '300');
+			yLabel.setAttribute('text-anchor', 'middle');
+			yLabel.setAttribute('transform', 'rotate(-90, 50, 300)');
+			yLabel.setAttribute('fill', 'var(--text-muted)');
+			yLabel.setAttribute('font-size', '14');
+			yLabel.textContent = 'Value Chain (User Visible ← → Infrastructure)';
+			axesGroup.appendChild(yLabel);
 
-		// X-axis label
-		const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-		xLabel.setAttribute('x', '415');
-		xLabel.setAttribute('y', '580');
-		xLabel.setAttribute('text-anchor', 'middle');
-		xLabel.setAttribute('fill', 'var(--text-muted)');
-		xLabel.setAttribute('font-size', '14');
-		xLabel.textContent = 'Evolution (Genesis → Custom → Product → Commodity)';
-		axesGroup.appendChild(xLabel);
+			// X-axis label (moved further from axis)
+			const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+			xLabel.setAttribute('x', '415');
+			xLabel.setAttribute('y', '590');
+			xLabel.setAttribute('text-anchor', 'middle');
+			xLabel.setAttribute('fill', 'var(--text-muted)');
+			xLabel.setAttribute('font-size', '14');
+			xLabel.textContent = 'Evolution (Genesis → Custom → Product → Commodity)';
+			axesGroup.appendChild(xLabel);
+		}
 
-		// Evolution stage markers
+		// Evolution stage markers and vertical grid lines
 		const stages = ['Genesis', 'Custom', 'Product', 'Commodity'];
 		stages.forEach((stage, i) => {
 			const x = 80 + (i * 167.5); // Distribute evenly across x-axis
+			
+			// Vertical grid line for evolution stage boundary (if enabled)
+			if (this.settings.show_evolution_grid) {
+				const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+				gridLine.setAttribute('x1', x.toString());
+				gridLine.setAttribute('y1', '50');
+				gridLine.setAttribute('x2', x.toString());
+				gridLine.setAttribute('y2', '550');
+				gridLine.setAttribute('stroke', this.settings.grid_color);
+				gridLine.setAttribute('stroke-width', '1');
+				gridLine.setAttribute('stroke-dasharray', '2,3');
+				gridLine.setAttribute('opacity', this.settings.grid_opacity.toString());
+				axesGroup.appendChild(gridLine);
+			}
 			
 			const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 			tick.setAttribute('x1', x.toString());
@@ -229,7 +266,7 @@ export class WardleyMapRenderer {
 
 			const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
 			label.setAttribute('x', x.toString());
-			label.setAttribute('y', '570');
+			label.setAttribute('y', '575');
 			label.setAttribute('text-anchor', 'middle');
 			label.setAttribute('fill', 'var(--text-muted)');
 			label.setAttribute('font-size', '12');
@@ -252,8 +289,8 @@ export class WardleyMapRenderer {
 			
 			if (!sourceComp || !targetComp) return;
 
-			// Calculate line endpoints that stop at circle edges (radius = 12)
-			const radius = 12;
+			// Calculate line endpoints that stop at circle edges
+			const radius = this.settings.node_size;
 			const { x1, y1, x2, y2 } = this.calculateLineEndpoints(
 				sourceComp.x, sourceComp.y, 
 				targetComp.x, targetComp.y, 
@@ -266,7 +303,7 @@ export class WardleyMapRenderer {
 			line.setAttribute('x2', x2.toString());
 			line.setAttribute('y2', y2.toString());
 			line.setAttribute('stroke', this.getEdgeColor(edge.type));
-			line.setAttribute('stroke-width', '2');
+			line.setAttribute('stroke-width', this.settings.edge_thickness.toString());
 			line.setAttribute('stroke-dasharray', 
 				edge.type === 'constrains' ? '5,5' : 
 				(edge.type === 'evolves_to' || edge.type === 'evolved_from') ? '3,3' : 
@@ -294,7 +331,7 @@ export class WardleyMapRenderer {
 			const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 			circle.setAttribute('cx', component.x.toString());
 			circle.setAttribute('cy', component.y.toString());
-			circle.setAttribute('r', '12');
+			circle.setAttribute('r', this.settings.node_size.toString());
 			circle.setAttribute('fill', this.getComponentColor(component));
 			circle.setAttribute('stroke', 'var(--text-normal)');
 			circle.setAttribute('stroke-width', '2');
@@ -308,10 +345,10 @@ export class WardleyMapRenderer {
 			// Component label
 			const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
 			text.setAttribute('x', component.x.toString());
-			text.setAttribute('y', (component.y + 25).toString());
+			text.setAttribute('y', (component.y + this.settings.node_size + 13).toString());
 			text.setAttribute('text-anchor', 'middle');
 			text.setAttribute('fill', 'var(--text-normal)');
-			text.setAttribute('font-size', '11');
+			text.setAttribute('font-size', this.settings.font_size.toString());
 			text.setAttribute('class', 'wardley-label');
 			text.textContent = component.name;
 			
@@ -334,15 +371,9 @@ export class WardleyMapRenderer {
 		const strategic = component.attrs.strategic;
 		if (!strategic) return 'var(--interactive-normal)';
 
-		// Color by strategic importance
-		const colorMap: Record<string, string> = {
-			critical: 'var(--color-red)',
-			important: 'var(--color-orange)', 
-			supporting: 'var(--color-blue)',
-			optional: 'var(--color-base-40)',
-		};
-
-		return colorMap[strategic.strategic_importance || 'supporting'] || 'var(--interactive-normal)';
+		// Use configured colors for strategic importance
+		const importance = strategic.strategic_importance || 'supporting';
+		return this.settings.node_colors[importance] || this.settings.node_colors.supporting;
 	}
 
 	private getEdgeColor(type: string): string {

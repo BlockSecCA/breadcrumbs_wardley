@@ -4,8 +4,8 @@ evolution_stage: commodity
 strategic_importance: supporting
 confidence_level: high
 evidence_sources:
-  - equipment_comparison_study
-  - energy_efficiency_analysis
+  - "[[Equipment Comparison Study]]"
+  - "[[Energy Efficiency Analysis]]"
 last_validated: 2024-12-01
 depends_on: []
 evolved_from:

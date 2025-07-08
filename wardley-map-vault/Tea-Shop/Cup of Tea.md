@@ -4,8 +4,8 @@ evolution_stage: product
 strategic_importance: critical
 confidence_level: high
 evidence_sources:
-  - "customer_satisfaction_surveys"
-  - "sales_data"
+  - "[[Customer Satisfaction Surveys]]"
+  - "[[Tea Sales Data Analysis]]"
 last_validated: "2024-12-20"
 depends_on:
   - "[[Cup]]"

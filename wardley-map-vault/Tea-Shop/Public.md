@@ -4,8 +4,8 @@ evolution_stage: commodity
 strategic_importance: critical
 confidence_level: high
 evidence_sources:
-  - "public_health_requirements"
-  - "regulatory_compliance"
+  - "[[Public Health Requirements]]"
+  - "[[Regulatory Compliance Analysis]]"
 last_validated: "2025-01-01"
 depends_on:
   - "[[Cup of Tea]]"

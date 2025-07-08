@@ -53,5 +53,21 @@ export const DEFAULT_SETTINGS: BreadcrumbsSettings = {
 				},
 			},
 		},
+		wardley: {
+			font_size: 11,
+			node_size: 12,
+			node_colors: {
+				critical: "var(--color-red)",
+				important: "var(--color-orange)",
+				supporting: "var(--color-blue)",
+				optional: "var(--color-base-40)",
+			},
+			show_evolution_grid: true,
+			show_axis_labels: true,
+			edge_thickness: 2,
+			component_spacing: 80,
+			grid_color: "var(--text-muted)",
+			grid_opacity: 0.5,
+		},
 	},
 };

@@ -4,8 +4,8 @@ evolution_stage: product
 strategic_importance: critical
 confidence_level: high
 evidence_sources:
-  - "customer_demand_analysis"
-  - "market_research"
+  - "[[Customer Demand Analysis]]"
+  - "[[Tea Market Research]]"
 last_validated: "2025-01-01"
 depends_on:
   - "[[Cup of Tea]]"
