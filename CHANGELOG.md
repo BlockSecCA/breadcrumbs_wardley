@@ -1,6 +1,44 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file.
+
+## Strategic Mapping Extension Releases
+
+### [v1.1.0] (2025-01-08)
+
+#### 🎨 Visual Customization
+- **Configurable visual settings** - Font size, node size, component spacing, and colors
+- **Evolution grid lines** - Optional dotted vertical lines for evolution stage boundaries
+- **Improved axis positioning** - Better Y-axis and X-axis label placement
+- **Custom color themes** - Configurable colors for strategic importance levels
+- **Enhanced edge styling** - Configurable line thickness and arrow heads
+
+#### 🧠 Strategic Intelligence Enhancements  
+- **Evidence source validation** - Validates that referenced evidence notes exist
+- **Enhanced warning messages** - More detailed and actionable warning descriptions
+- **Note link format** - Evidence sources now use `[[Note Name]]` Obsidian links instead of text
+- **Future AI architecture** - Prepared infrastructure for AI evidence validation
+
+#### 🔧 Algorithm Improvements
+- **Enhanced collision detection** - Better component distribution and spacing
+- **Evolution inheritance** - Evolved components properly inherit dependency relationships  
+- **Improved positioning** - More sophisticated component distribution algorithms
+- **Performance optimization** - Faster analysis and rendering
+
+#### 📚 Documentation
+- **Strategic Intelligence Architecture** - Complete technical documentation
+- **Strategic Intelligence Guide** - Updated user guide with note link examples
+- **Positioning Algorithm** - Comprehensive algorithm documentation for developers
+
+#### 🔨 Technical Improvements
+- **Settings system integration** - Wardley map settings properly integrated with Breadcrumbs
+- **Real-time updates** - Improved metadata cache synchronization
+- **Error handling** - Better graceful degradation for malformed data
+- **Type safety** - Enhanced TypeScript interfaces and validation
+
+---
+
+## Original Breadcrumbs Plugin History
 
 ### [3.6.11](https://github.com/SkepticMystic/breadcrumbs/compare/3.6.10...3.6.11) (2024-01-05)
 

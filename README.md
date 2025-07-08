@@ -36,9 +36,10 @@ Strategic mapping helps you visualize and analyze the evolution and dependencies
   - `enables` - what this component enables (green lines) 
   - `evolves_to/evolved_from` - technological evolution (purple dotted arrows)
 - **Evolution stages**: Genesis → Custom → Product → Commodity
-- **Strategic intelligence panel** with automated analysis
+- **Strategic intelligence panel** with automated analysis and evidence validation
 - **Map contexts** for organizing different strategic domains
 - **Folder-based organization** - any folder can be a strategic map
+- **Visual customization** - configurable fonts, node sizes, colors, and grid lines
 
 ### 📊 Visual Elements
 - **Component positioning** based on evolution stage (X-axis) and value chain (Y-axis)
@@ -46,6 +47,18 @@ Strategic mapping helps you visualize and analyze the evolution and dependencies
 - **Evolution arrows** with directional arrow heads
 - **Strategic importance** indicated by component colors
 - **Interactive components** - click to open notes
+- **Evolution grid lines** - optional dotted lines showing stage boundaries
+- **Customizable styling** - fonts, node sizes, colors, spacing, and line thickness
+
+### 🎨 Visual Customization
+Access visual settings through **Settings > Breadcrumbs > Wardley Maps**:
+- **Font size** - adjust label text size (8-20px)
+- **Node size** - component circle radius (8-24px) 
+- **Component spacing** - horizontal spacing between components (40-150px)
+- **Strategic importance colors** - custom colors for critical/important/supporting components
+- **Evolution grid lines** - toggle dotted vertical lines for evolution stages
+- **Edge thickness** - relationship line width (1-5px)
+- **Grid appearance** - color and opacity of evolution stage boundaries
 
 ## 📋 Requirements
 
@@ -72,8 +85,8 @@ evolution_stage: product
 strategic_importance: critical
 confidence_level: high
 evidence_sources:
-  - "market_research"
-  - "customer_feedback"
+  - "[[Market Research Report]]"
+  - "[[Customer Feedback Survey]]"
 last_validated: "2024-12-15"
 depends_on:
   - "[[Database]]"
@@ -330,7 +343,15 @@ confidence_level: high
 
 ## 🚦 Version History
 
-### v1.0.0 (Current)
+### v1.1.0 (Current)
+- ✅ **Visual customization settings** - fonts, node sizes, colors, spacing
+- ✅ **Evolution grid lines** - optional stage boundary guides  
+- ✅ **Evidence source validation** - validates `[[Note Name]]` links exist
+- ✅ **Enhanced Strategic Intelligence** - better warnings and analysis
+- ✅ **Improved positioning algorithm** - collision detection and distribution
+- ✅ **Comprehensive documentation** - architecture and algorithm guides
+
+### v1.0.0
 - ✅ Complete Wardley Map visualization
 - ✅ Strategic YAML frontmatter support  
 - ✅ Real-time auto-refresh

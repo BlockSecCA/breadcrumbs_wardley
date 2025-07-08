@@ -1,11 +1,11 @@
 {
-	"id": "breadcrumbs",
-	"name": "Breadcrumbs",
-	"version": "3.6.11",
+	"id": "breadcrumbs-wardley",
+	"name": "Breadcrumbs Strategic Mapping",
+	"version": "1.1.0",
 	"minAppVersion": "1.0.0",
-	"description": "Add structured hierarchies to your notes",
-	"author": "SkepticMystic",
-	"authorUrl": "https://github.com/SkepticMystic/breadcrumbs",
+	"description": "Strategic mapping extension for Breadcrumbs - Create interactive Wardley Maps from your notes",
+	"author": "BlockSecCA (extending SkepticMystic's Breadcrumbs)",
+	"authorUrl": "https://github.com/BlockSecCA/breadcrumbs_wardley",
 	"fundingUrl": "https://ko-fi.com/skepticmystic",
 	"isDesktopOnly": false
 }

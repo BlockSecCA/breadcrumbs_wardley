@@ -1,7 +1,7 @@
 {
 	"name": "breadcrumbs",
-	"version": "4.0.2-beta",
-	"description": "Add structured hierarchies to your Obsidian vault",
+	"version": "1.1.0",
+	"description": "Strategic mapping extension for Breadcrumbs - Create interactive Wardley Maps from your notes",
 	"main": "main.js",
 	"scripts": {
 		"SOURCE": "https://stackoverflow.com/questions/70716940/using-tailwind-css-with-esbuild-the-process",
