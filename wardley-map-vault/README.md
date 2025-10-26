@@ -68,23 +68,26 @@ evolves_to:
 - **Evolution tracking**: Components with evolution relationships
 - **Validation status**: Last updated dates and confidence levels
 
+**Learn more**: See [Strategic Intelligence Explained](Strategic_Intelligence_Explained.md) for a detailed guide on what each warning and insight means, and [Strategic Intelligence Assessment](Strategic_Intelligence_Assessment.md) for an evaluation of the analysis logic.
+
 ## 🛠️ Customization
 
 Feel free to modify this example:
 
 ### Add Your Own Components
-```yaml
----
-type: component
-evolution_stage: custom
-strategic_importance: critical
-depends_on: ["[[Existing Component]]"]
----
 
-# Your Component
+Use the **[Component-Template.md](Component-Template.md)** as a starting point:
+1. Copy the template file
+2. Rename it to your component name
+3. Fill in the strategic metadata
+4. Write the description
+5. Save in your map folder
 
-Description of your strategic component...
-```
+The template includes:
+- Complete YAML frontmatter with all fields
+- Document structure guidance
+- Decision guides for each field
+- Quick examples for common patterns
 
 ### Create New Maps
 1. Create a new folder (e.g., `Your-Strategy/`)
@@ -123,6 +126,11 @@ Use this example to:
 
 ## 📖 Learn More
 
+### Strategic Intelligence
+- **[Strategic Intelligence Explained](Strategic_Intelligence_Explained.md)**: Plain-language guide to the analysis panel
+- **[Strategic Intelligence Assessment](Strategic_Intelligence_Assessment.md)**: Critical evaluation of the logic and recommendations
+
+### Wardley Mapping
 - **Original Tea Cup Map**: [Simon Wardley's Article](https://swardley.medium.com/a-good-enough-map-eaed8a525bf4)
 - **Wardley Mapping**: [Official Guide](https://wardleymaps.com/)
 - **Plugin Features & Installation**: [Strategic Mapping Extension Documentation](../README.md)
