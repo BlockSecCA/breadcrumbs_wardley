@@ -404,3 +404,7 @@ Special thanks to:
 ---
 
 **Ready to map your strategic landscape? Start with the Tea Shop example and build your first Wardley Map!** ☕ 🗺️
+## Author
+
+Carlos - BlockSecCA
+
