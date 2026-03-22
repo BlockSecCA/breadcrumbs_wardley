@@ -237,10 +237,11 @@ export class WardleyMapRenderer {
 			axesGroup.appendChild(xLabel);
 		}
 
-		// Evolution stage markers and vertical grid lines
+		// Evolution stage markers and vertical grid lines (centered in each quarter)
 		const stages = ['Genesis', 'Custom', 'Product', 'Commodity'];
+		const stageCenters = [0.125, 0.375, 0.625, 0.875];
 		stages.forEach((stage, i) => {
-			const x = 80 + (i * 167.5); // Distribute evenly across x-axis
+			const x = 80 + (stageCenters[i] * (800 - 160)); // Band centers within content area
 			
 			// Vertical grid line for evolution stage boundary (if enabled)
 			if (this.settings.show_evolution_grid) {
